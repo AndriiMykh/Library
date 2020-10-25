@@ -19,6 +19,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumingThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -69,12 +70,31 @@ public class BookControllerTest {
 		given(bookRepository.saveAll(datas)).willAnswer(answer->answer.getArgument(0));
 		
 		List<Book> books = bookService.createBooks(datas); 
-		System.out.println(books.size());
+		
 		assertEquals(books.size(), expected);
 	
-		 
 	}
 	
+	@Test
+	public void updateBook() {
+		Book book = new Book(1L,"Robinson Crusoe", "Book about man on island", 5, null, null);
+		
+		given(bookRepository.save(book)).willReturn(book);
+		
+		Book expected = bookService.updateBook(book);
+		
+		assertThat(expected).isNotNull();
+		
+		verify(bookRepository).save(any(Book.class));
+	}
 	
+	@Test
+	public void deleteBook() {
+		Long bookId = 1L;
+		
+		bookService.deleteBookById(bookId);
+		
+		verify(bookRepository, times(1)).deleteById(bookId);
+	}
 	
 }
