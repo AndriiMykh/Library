@@ -1,7 +1,5 @@
 package com.example.demo.entity;
 
-import java.util.List;
-
 import javax.persistence.Embeddable;
 
 import lombok.AllArgsConstructor;

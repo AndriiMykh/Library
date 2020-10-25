@@ -27,4 +27,16 @@ public class BookTest {
 	}
 	
 	
+	@Test
+	public void setReviews() {
+		Review review = new Review(1L, "Very interesting and fascinateing book!!!");
+		Review review2 = new Review(2L, "Very bad and boring book! Dont waste your money");
+		Review review3 = new Review(3L, "Nice to read.");
+//		book.addReview(review);
+//		book.addReview(review2);
+//		book.addReview(review3);
+//		assertEquals(3, book.getReviews().size());
+	}
+	
+	
 }
