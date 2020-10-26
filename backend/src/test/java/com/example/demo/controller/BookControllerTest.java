@@ -22,6 +22,7 @@ import org.zalando.problem.violations.ConstraintViolationProblemModule;
 import static org.mockito.ArgumentMatchers.any;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -99,6 +100,54 @@ public class BookControllerTest {
          .andExpect(status().isCreated())
          .andExpect(jsonPath("$.title", is(book.getTitle())))
          .andExpect(jsonPath("$.descr", is(book.getDescr())));
+    }
     
+    @Test
+    void updateBook() throws Exception {
+        Long bookId = 1L;
+        Book book = new Book(bookId,"Robinson Crusoe", "Book about man on island", 3,null, null);
+        given(bookService.findBookById(bookId)).willReturn(Optional.of(book));
+        given(bookService.updateBook(any(Book.class))).willAnswer((invocation) -> invocation.getArgument(0));
+        
+        this.mockMvc.perform(put("/api/books/{id}", book.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(book)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title", is(book.getTitle())))
+                .andExpect(jsonPath("$.descr", is(book.getDescr())));
+    }
+    
+    @Test
+    void shouldReturn404WhenUpdatingBookIdDoesntExist() throws Exception {
+    	final Long bookId = 1L;
+    	given(bookService.findBookById(bookId)).willReturn(Optional.empty());
+    	 Book book=new Book(1L,"Robinson Crusoe", "Book about man on island", 3,null, null);
+    	 
+         this.mockMvc.perform(put("/api/books/{id}", bookId)
+                 .contentType(MediaType.APPLICATION_JSON)
+                 .content(objectMapper.writeValueAsString(book)))
+         			.andExpect(status().isNotFound());
+    }
+    
+    @Test
+    void shouldDeleteBook() throws Exception {
+        Long bookId = 1L;
+        Book book=new Book(1L,"Robinson Crusoe", "Book about man on island", 3,null, null);
+        given(bookService.findBookById(bookId)).willReturn(Optional.of(book));
+        doNothing().when(bookService).deleteBookById(book.getId());
+        
+        
+        this.mockMvc.perform(delete("/api/books/{id}",bookId))
+					.andExpect(status().isOk());
+    }
+    
+    @Test
+    void shouldReturn404WhenDeletingNonExistingBook() throws Exception {
+    	Long bookId = 1L;
+    	given(bookService.findBookById(bookId)).willReturn(Optional.empty());
+
+        this.mockMvc.perform(delete("/api/books/{id}",bookId))
+                .andExpect(status().isNotFound());
+
     }
 }
