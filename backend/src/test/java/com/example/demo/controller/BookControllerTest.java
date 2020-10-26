@@ -9,7 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import com.example.demo.entity.Book;
 import com.example.demo.service.BookService;
@@ -17,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.zalando.problem.ProblemModule;
 import org.zalando.problem.violations.ConstraintViolationProblemModule;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -50,7 +53,7 @@ public class BookControllerTest {
     }
     
     @Test
-    void shouldRetrieveAllUsers() throws Exception {
+    void shouldRetrieveAllBooks() throws Exception {
     	given(bookService.findAllBooks()).willReturn(bookList);
     	
     	this.mockMvc.perform(get("/api/books/"))
@@ -69,8 +72,33 @@ public class BookControllerTest {
         	.andExpect(status().isOk())
         	.andExpect(jsonPath("$.title", is(book.getTitle())))
         	.andExpect(jsonPath("$.descr", is(book.getDescr())))
-        	.andExpect(jsonPath("$.reviews", is(book.getReviews())));
-        	
+        	.andExpect(jsonPath("$.reviews", is(book.getReviews())))
+        	.andExpect(jsonPath("$.quantity", is(book.getQuantity()))); 	
+    }
+    
+    @Test
+    void shouldReturn404WhenBookIdDoesntExist() throws Exception {
+    	final Long bookId = 1L;
+    	
+    	given(bookService.findBookById(bookId)).willReturn(Optional.empty());
+    	
+    	this.mockMvc.perform(get("/api/books/{id}",bookId))
+    		.andExpect(status().isNotFound());
     }
 
+    @Test
+    void shouldCreateNewBook() throws Exception {
+    	
+    	 given(bookService.createBook(any(Book.class))).willAnswer((invocation) -> invocation.getArgument(0));
+    	 
+    	 Book book=new Book(3L,"Robinson Crusoe", "Book about man on island", 3,null, null);
+    	     	 
+    	 this.mockMvc.perform(post("/api/books/")
+         .contentType(MediaType.APPLICATION_JSON)
+         .content(objectMapper.writeValueAsString(book)))
+         .andExpect(status().isCreated())
+         .andExpect(jsonPath("$.title", is(book.getTitle())))
+         .andExpect(jsonPath("$.descr", is(book.getDescr())));
+    
+    }
 }
