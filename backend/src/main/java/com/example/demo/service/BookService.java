@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Book;
+import com.example.demo.exception.BookAlreadyExists;
 import com.example.demo.repository.BookRepository;
 
 @Service
@@ -29,7 +30,11 @@ public class BookService {
     }
     
     public Book createBook(Book book) {
-    	return bookRepository.save(book);
+    	Optional<Book> checkBookIfNotExists =bookRepository.findBookByTitle(book.getTitle());
+    	if(checkBookIfNotExists.isEmpty())
+    		return bookRepository.save(book);
+    	else
+    		throw new BookAlreadyExists();
     }
     
     public List<Book> createBooks(List<Book> books) {

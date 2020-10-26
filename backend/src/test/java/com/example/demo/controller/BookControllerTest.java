@@ -102,6 +102,7 @@ public class BookControllerTest {
          .andExpect(jsonPath("$.descr", is(book.getDescr())));
     }
     
+
     @Test
     void updateBook() throws Exception {
         Long bookId = 1L;

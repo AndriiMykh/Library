@@ -3,6 +3,7 @@ package com.example.demo.repository;
 
 
 import com.example.demo.entity.Book;
+import com.example.demo.exception.BookAlreadyExists;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.service.BookService;
 
@@ -111,6 +112,22 @@ public class BookRepositoryTest {
 		assertThat(books).isNotNull();
 		
 		assertEquals(datas, books);
+		
+	}
+	
+	@Test
+	void shouldThrowBookAlreadyExists() {
+		Book book = new Book(1L,"Robinson Crusoe", "Book about man on island", 5, null, null);
+		
+		String title = "Robinson Crusoe";
+		given(bookRepository.findBookByTitle(title)).willReturn(Optional.of(book));
+		
+		assertThrows(BookAlreadyExists.class,()->{
+			bookService.createBook(book);
+		});
+		
+		verify(bookRepository,never()).save(any(Book.class));
+		
 		
 	}
 	
