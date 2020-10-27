@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,7 +59,7 @@ public class ReaderController {
 	}
 	
 	@PutMapping("/{id}")
-    public ResponseEntity<Reader> updateReader(@PathVariable long id, @RequestBody Reader reader) {
+	private ResponseEntity<Reader> updateReader(@PathVariable long id, @RequestBody Reader reader) {
         return readerService.findById(id)
                 .map(readerObj -> {
                 	readerObj.setId(id);
@@ -72,13 +73,35 @@ public class ReaderController {
     }
 	
     @DeleteMapping("/{id}")
-    public ResponseEntity<Reader> deleteReader(@PathVariable Long id){
+    private ResponseEntity<Reader> deleteReader(@PathVariable Long id){
     	return readerService.findById(id)
     				.map(reader -> {
     					readerService.deleteReaderById(id);
     					return ResponseEntity.ok(reader);
     				})
     				 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    
+    @PostMapping("/addBooksToReader/{userId}")
+    private ResponseEntity<Reader> addBooksToReader(@PathVariable long userId,@RequestBody Set<Book> books) {
+    	if(books.isEmpty()) 
+    		throw new RuntimeException();
+    	else {
+    		Optional<Reader> reader = readerService.findById(userId);
+    		if(reader.isPresent()) {
+    			final Reader readerWithBooks = reader.get();
+    			readerWithBooks.getBooks().forEach(bookInside->{
+    				books.contains(bookInside);
+    				System.out.println("Book inside message");
+    			});
+    			readerWithBooks.getBooks().addAll(books);
+    			readerService.updateReader(readerWithBooks);
+    			return ResponseEntity.ok(readerWithBooks);
+    		}
+    		else 
+    			throw new RuntimeException();
+    	}
+		
     }
 }
 

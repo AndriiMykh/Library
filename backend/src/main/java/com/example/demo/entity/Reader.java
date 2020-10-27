@@ -1,7 +1,10 @@
 package com.example.demo.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
@@ -31,13 +34,11 @@ public class Reader {
 	private Long Id;
 	private String email;
 	private String password;
-	@OneToMany(mappedBy = "readers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToMany( fetch = FetchType.LAZY,
+			cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH} )
 	private List<Book> books=new ArrayList<>();
 	@Embedded
 	private Address address;
-    public void addBook(Book book) {
-    	books.add(book);
-    	book.setReaders(this);
-    }
+
 	
 }
