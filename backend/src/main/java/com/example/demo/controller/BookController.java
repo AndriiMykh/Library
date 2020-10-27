@@ -50,6 +50,11 @@ public class BookController {
         return bookService.findBookById(id)
                 .map(bookObj -> {
                 	bookObj.setId(id);
+                	bookObj.setDescr(book.getDescr());
+                	bookObj.setQuantity(book.getQuantity());
+                	bookObj.setTitle(book.getTitle());
+                	bookObj.setReviews(book.getReviews());
+                	bookObj.setReaders(book.getReaders());
                     return ResponseEntity.ok(bookService.updateBook(bookObj));
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());

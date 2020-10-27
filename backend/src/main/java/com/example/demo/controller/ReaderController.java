@@ -61,7 +61,11 @@ public class ReaderController {
     public ResponseEntity<Reader> updateReader(@PathVariable long id, @RequestBody Reader reader) {
         return readerService.findById(id)
                 .map(readerObj -> {
-                	readerObj.setId(id);	
+                	readerObj.setId(id);
+                	readerObj.setAddress(reader.getAddress());
+                	readerObj.setBooks(reader.getBooks());
+                	readerObj.setEmail(reader.getEmail());
+                	readerObj.setPassword(reader.getPassword());
                     return ResponseEntity.ok(readerService.updateReader(readerObj));
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
