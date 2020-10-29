@@ -50,6 +50,11 @@ public class Reader {
 		System.out.println();
 		return false;
 	}
+	public List<Book> deleteBookFromReaderById(Long id){
+		books.removeIf(book->(book.getId()==id));
+		return books;
+	}
+
 
 	
 }

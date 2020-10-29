@@ -95,16 +95,6 @@ public class ReaderController {
     		Optional<Reader> reader = readerService.findById(userId);
     		if(reader.isPresent()) {
     			final Reader readerWithBooks = reader.get();
-//    			readerWithBooks.getBooks().forEach(bookInside->{
-//    				System.out.println(books.);
-//    					//books.remove(bookInside);
-//    					//System.out.println(bookInside.getTitle()+"Was deleted from list");
-//    					
-//    				
-//    					
-//    				
-////    				System.out.println("Book inside message");
-//    			});
     			Set<Book> uniqueBooks= new HashSet<Book>();
     			books.forEach(book->{
     				System.out.println(readerWithBooks.findBooksInsidePresentsById(book));
@@ -146,10 +136,11 @@ public class ReaderController {
     		Optional<Reader> reader = readerService.findById(userId);
     		if(reader.isPresent()) {
     			final Reader readerWithBooks = reader.get();
-    			readerWithBooks.getBooks().forEach((bookInside->{
-    				books.contains(bookInside);
-    			}));
-    			System.out.println(readerWithBooks.getBooks().toString());
+    			books.forEach(book->{
+    				readerWithBooks.deleteBookFromReaderById(book.getId());
+    				book.setQuantity(book.getQuantity()+1);
+    				bookService.updateBook(book);
+    			});
     			readerService.updateReader(readerWithBooks);
     			return ResponseEntity.ok(readerWithBooks);
     		}
