@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Reader;
+import com.example.demo.service.BookService;
 import com.example.demo.service.ReaderService;
 
 @RestController
@@ -28,9 +30,12 @@ public class ReaderController {
 
 	private final ReaderService readerService;
 	
+	private final BookService bookService;
+	
 	@Autowired
-	public ReaderController(ReaderService readerService) {
+	public ReaderController(ReaderService readerService,BookService bookService) {
 		this.readerService=readerService;
+		this.bookService=bookService;
 	}
 	
 	@GetMapping("/")
@@ -90,18 +95,67 @@ public class ReaderController {
     		Optional<Reader> reader = readerService.findById(userId);
     		if(reader.isPresent()) {
     			final Reader readerWithBooks = reader.get();
-    			readerWithBooks.getBooks().forEach(bookInside->{
-    				books.contains(bookInside);
-    				System.out.println("Book inside message");
+//    			readerWithBooks.getBooks().forEach(bookInside->{
+//    				System.out.println(books.);
+//    					//books.remove(bookInside);
+//    					//System.out.println(bookInside.getTitle()+"Was deleted from list");
+//    					
+//    				
+//    					
+//    				
+////    				System.out.println("Book inside message");
+//    			});
+    			Set<Book> uniqueBooks= new HashSet<Book>();
+    			books.forEach(book->{
+    				System.out.println(readerWithBooks.findBooksInsidePresentsById(book));
+    				if(!readerWithBooks.findBooksInsidePresentsById(book))
+    					uniqueBooks.add(book);
     			});
-    			readerWithBooks.getBooks().addAll(books);
+    			uniqueBooks.forEach(book->{
+    				System.out.println(book.getTitle());
+    			});
+    			uniqueBooks.forEach(bookInside->{
+    				System.out.println(bookInside.getId());
+    				Optional<Book> book = bookService.findBookById(bookInside.getId());
+    				System.out.println("inside");
+    				if(book.isPresent()) {
+    					if(book.get().getQuantity()>0) {
+    						book.get().setQuantity(book.get().getQuantity()-1);
+    						bookService.updateBook(book.get());
+    						System.out.println(book.get().getQuantity());
+    		    			readerWithBooks.getBooks().add(book.get());
+    		    			readerService.updateReader(readerWithBooks);
+    					}	
+    					else {
+    						System.out.println("Not available");
+    					}
+    				}
+    			});
+    			return ResponseEntity.ok(readerWithBooks);
+    		}
+    		else 
+    			throw new RuntimeException();
+    	}
+    }
+    
+    @PostMapping("/deleteBooksFromReader/{userId}")
+    private ResponseEntity<Reader> deleteBooksFromReader(@PathVariable long userId,@RequestBody Set<Book> books){
+    	if(books.isEmpty()) 
+    		throw new RuntimeException();
+    	else {
+    		Optional<Reader> reader = readerService.findById(userId);
+    		if(reader.isPresent()) {
+    			final Reader readerWithBooks = reader.get();
+    			readerWithBooks.getBooks().forEach((bookInside->{
+    				books.contains(bookInside);
+    			}));
+    			System.out.println(readerWithBooks.getBooks().toString());
     			readerService.updateReader(readerWithBooks);
     			return ResponseEntity.ok(readerWithBooks);
     		}
     		else 
     			throw new RuntimeException();
     	}
-		
     }
 }
 

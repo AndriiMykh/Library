@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
@@ -34,11 +35,21 @@ public class Reader {
 	private Long Id;
 	private String email;
 	private String password;
-	@OneToMany( fetch = FetchType.LAZY,
-			cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH} )
+	@ManyToMany( fetch = FetchType.LAZY,
+			cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH} )
 	private List<Book> books=new ArrayList<>();
 	@Embedded
 	private Address address;
+	
+	public boolean findBooksInsidePresentsById(Book checkBook){
+		for (Book book : books) {
+			if(book.getId()==checkBook.getId()) {
+				return true;
+			}		
+		}
+		System.out.println();
+		return false;
+	}
 
 	
 }

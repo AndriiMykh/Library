@@ -133,7 +133,7 @@ public class BookControllerTest {
     @Test
     void shouldDeleteBook() throws Exception {
         Long bookId = 1L;
-        Book book=new Book(1L,"Robinson Crusoe", "Book about man on island", 3,null, null);
+        Book book=new Book(1L,"Robinson Crusoe", "Book about man on island", 3, null, null);
         given(bookService.findBookById(bookId)).willReturn(Optional.of(book));
         doNothing().when(bookService).deleteBookById(book.getId());
         

@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -31,10 +32,11 @@ public class Book {
 	private String title;
 	private String descr;
 	private int quantity;
-	@OneToMany(mappedBy = "books", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY,
+			cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	private List<Reader> readers = new ArrayList<Reader>();
+	@ManyToMany(mappedBy = "books", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<Review> reviews=new ArrayList<>();
-	@ManyToOne
-	private Reader readers;
     public void addReview(Review review) {
     	reviews.add(review);
     	review.setBooks(this);

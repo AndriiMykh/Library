@@ -54,7 +54,6 @@ public class BookController {
                 	bookObj.setQuantity(book.getQuantity());
                 	bookObj.setTitle(book.getTitle());
                 	bookObj.setReviews(book.getReviews());
-                	bookObj.setReaders(book.getReaders());
                     return ResponseEntity.ok(bookService.updateBook(bookObj));
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
