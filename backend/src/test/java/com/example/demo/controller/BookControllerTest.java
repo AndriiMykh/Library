@@ -73,7 +73,6 @@ public class BookControllerTest {
         	.andExpect(status().isOk())
         	.andExpect(jsonPath("$.title", is(book.getTitle())))
         	.andExpect(jsonPath("$.descr", is(book.getDescr())))
-        	.andExpect(jsonPath("$.reviews", is(book.getReviews())))
         	.andExpect(jsonPath("$.quantity", is(book.getQuantity()))); 	
     }
     

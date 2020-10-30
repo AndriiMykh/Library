@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +46,7 @@ public class ReaderController {
 	}
 	
 	@GetMapping("/{id}")
-	private ResponseEntity<Reader> getReaderById(long id){
+	private ResponseEntity<Reader> getReaderById( @PathVariable long id){
 		return readerService.findById(id)
 				.map(ResponseEntity::ok)
 				.orElseGet(()->ResponseEntity.notFound().build());
@@ -89,9 +91,6 @@ public class ReaderController {
     
     @PostMapping("/addBooksToReader/{userId}")
     private ResponseEntity<Reader> addBooksToReader(@PathVariable long userId,@RequestBody Set<Book> books) {
-    	if(books.isEmpty()) 
-    		throw new RuntimeException();
-    	else {
     		Optional<Reader> reader = readerService.findById(userId);
     		if(reader.isPresent()) {
     			final Reader readerWithBooks = reader.get();
@@ -124,15 +123,12 @@ public class ReaderController {
     			return ResponseEntity.ok(readerWithBooks);
     		}
     		else 
-    			throw new RuntimeException();
-    	}
+    			return ResponseEntity.notFound().build();
+    	
     }
     
     @PostMapping("/deleteBooksFromReader/{userId}")
     private ResponseEntity<Reader> deleteBooksFromReader(@PathVariable long userId,@RequestBody Set<Book> books){
-    	if(books.isEmpty()) 
-    		throw new RuntimeException();
-    	else {
     		Optional<Reader> reader = readerService.findById(userId);
     		if(reader.isPresent()) {
     			final Reader readerWithBooks = reader.get();
@@ -145,8 +141,8 @@ public class ReaderController {
     			return ResponseEntity.ok(readerWithBooks);
     		}
     		else 
-    			throw new RuntimeException();
-    	}
+    			return ResponseEntity.notFound().build();
+    	
     }
 }
 
