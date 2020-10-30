@@ -1,9 +1,11 @@
 package com.example.demo.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
@@ -23,9 +25,14 @@ public class Review {
 	private Long Id;
 	private String review;
 	@ManyToOne
+	@JoinColumn(name="book_id")
 	private Book books;
+	
 	public Review(long id, String review) {
 		this.Id=id;
+		this.review=review;
+	}
+	public Review(String review) {
 		this.review=review;
 	}
 }

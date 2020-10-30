@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -35,7 +37,8 @@ public class Book {
 	@ManyToMany(fetch = FetchType.LAZY,
 			cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private List<Reader> readers = new ArrayList<Reader>();
-	@ManyToMany(mappedBy = "books", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Review> reviews=new ArrayList<>();
     public void addReview(Review review) {
     	reviews.add(review);
