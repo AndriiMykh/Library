@@ -17,17 +17,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Book;
+import com.example.demo.entity.Reader;
 import com.example.demo.entity.Review;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.service.BookService;
+import com.example.demo.service.ReaderService;
 
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
 	
 	private final BookService bookService;
+	private final ReaderService readerService;
 	
-	public BookController(BookService bookService) {
+	public BookController(BookService bookService,ReaderService readerService) {
+		this.readerService = readerService;
 		this.bookService=bookService;
 	}
 	
@@ -74,10 +78,13 @@ public class BookController {
     }
     
     @PostMapping("/addReviewToBook/{bookId}")
-    public ResponseEntity<Book> addComment(@PathVariable Long bookId,@RequestBody String review){
+    public ResponseEntity<Book> addReview(@PathVariable Long bookId,@RequestParam("email") String email,@RequestParam("review") String review){
+    	System.out.println(email);
 		Optional<Book> book = bookService.findBookById(bookId);
+		Reader reader = readerService.findReaderByEmail(email);
 		if(book.isPresent()) {
 			Review newReview = new Review(review);
+			reader.addReview(newReview);
 			book.get().addReview(newReview);
 			bookService.updateBook(book.get());
 			return ResponseEntity.ok(book.get());

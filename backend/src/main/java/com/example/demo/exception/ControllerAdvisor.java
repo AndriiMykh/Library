@@ -49,4 +49,13 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 	
+	@ExceptionHandler
+	public ResponseEntity<Object> DataNotFoundException(DataNotFound ex){
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", "No data found");
+        
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+	}
+	
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Reader;
+import com.example.demo.exception.DataNotFound;
 import com.example.demo.exception.UserEmailIsAlreadyBusy;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.ReaderRepository;
@@ -42,7 +43,11 @@ public class ReaderService {
 	   else
 		   return readerRepository.save(reader);  
    }
-
+   
+   public Reader findReaderByEmail(String email) {
+	   return readerRepository.findByEmail(email)
+			   .orElseThrow(()->new DataNotFound(email));
+   }
    
    public Reader updateReader(Reader reader) {
 	   return readerRepository.save(reader);

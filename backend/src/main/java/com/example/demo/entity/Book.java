@@ -42,6 +42,6 @@ public class Book {
 	private List<Review> reviews=new ArrayList<>();
     public void addReview(Review review) {
     	reviews.add(review);
-    	review.setBooks(this);
+    	review.setBook(this);
     }
 }

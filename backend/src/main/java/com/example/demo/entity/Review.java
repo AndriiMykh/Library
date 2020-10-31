@@ -26,8 +26,10 @@ public class Review {
 	private String review;
 	@ManyToOne
 	@JoinColumn(name="book_id")
-	private Book books;
-	
+	private Book book;
+	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE})
+	@JoinColumn(name="reader_id")
+	private Reader reader;
 	public Review(long id, String review) {
 		this.Id=id;
 		this.review=review;

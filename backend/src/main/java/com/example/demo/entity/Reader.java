@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -38,6 +40,9 @@ public class Reader {
 	@ManyToMany( fetch = FetchType.LAZY,
 			cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH} )
 	private List<Book> books=new ArrayList<>();
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Review> reviews=new ArrayList<>();
 	@Embedded
 	private Address address;
 	
@@ -54,7 +59,10 @@ public class Reader {
 		books.removeIf(book->(book.getId()==id));
 		return books;
 	}
-
+    public void addReview(Review review) {
+    	reviews.add(review);
+    	review.setReader(this);
+    }
 
 	
 }
