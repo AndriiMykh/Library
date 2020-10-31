@@ -4,10 +4,12 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
-import { RegisterFormComponent } from './common/register-form/register-form.component';
-import { FooterComponent } from './common/footer/footer.component';
+import { RegisterFormComponent } from './components/register-form/register-form.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { HeaderComponent } from './common/header/header.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+
 const routes:Routes=[
   {path: 'registrationForm', component:RegisterFormComponent}
 ];
@@ -23,7 +25,9 @@ const routes:Routes=[
     AppRoutingModule,
     RouterModule.forRoot(routes),
     AppRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

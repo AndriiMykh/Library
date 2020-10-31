@@ -1,0 +1,78 @@
+<div class="myWrapper">
+    <div class="container mt-5 mb-5">
+        <h1 class="row justify-content-center text-success">Registration form</h1>
+        <div class="row justify-content-center align-items-center">
+            <form class="" [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <div formGroupName="reader" class="form-area">
+                        <label for="emailAdress" class="text-light bg-dark ">Email address:</label>
+                        <input type="email" class="form-control " id="emailAdress" formControlName="email">
+                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+                            <div *ngIf="email.errors.pattern"  >
+                                Incorrect format
+                            </div>
+                            <div *ngIf="email.errors.required" >
+                                This field is required
+                            </div>
+                        </div>
+                        <label for="password" class="text-light bg-dark">Password:</label>
+                        <input type="password" class="form-control" id="password" formControlName="password">
+                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+                            <div *ngIf="password.errors.required">
+                                This field is required
+                            </div>
+                            <div *ngIf="password.errors.minlength">
+                                At least 4 characters
+                            </div>
+                        </div>
+                    </div>
+                    <div formGroupName="address" class="form-area">
+                        <label for="city" class="text-light bg-dark">City:</label>
+                        <input type="text" name="City" id="city" class="form-control" formControlName="city">
+                            <div *ngIf="city.invalid && (city.dirty || city.touched)" class="alert alert-danger">
+                                <div *ngIf="city.errors.required">
+                                    This field is required
+                                </div>
+                                <div *ngIf="city.errors.minlength">
+                                    At least 4 characters
+                                </div>
+                            </div>
+
+                        <label for="street" class="text-light bg-dark">Street:</label>
+                        <input type="text" name="street" id="street" class="form-control" formControlName="street">
+                        <div *ngIf="street.invalid && (street.dirty || street.touched)" class="alert alert-danger">
+                            <div *ngIf="street.errors.required">
+                                This field is required
+                            </div>
+                        </div>
+                        <label for="houseNumber" class="text-light bg-dark">House number:</label>
+                        <input type="text" name="houseNumber" id="houseNumber" class="form-control" formControlName="houseNumber">
+                        <div *ngIf="houseNumber.invalid && (houseNumber.dirty || houseNumber.touched)" class="alert alert-danger">
+                            <div *ngIf="houseNumber.errors.required">
+                                This field is required
+                            </div>
+                        </div>
+                        <label for="flatNumber" class="text-light bg-dark">Flat number:</label>
+                        <input type="text" name="flatNumber" id="flatNumber" class="form-control" formControlName="flatNumber">
+                        <div *ngIf="flatNumber.invalid && (flatNumber.dirty || flatNumber.touched)" class="alert alert-danger">
+                            <div *ngIf="flatNumber.errors.required">
+                                This field is required
+                            </div>
+                        </div>
+                        <label for="street" class="text-light bg-dark">ZipCode:</label>
+                        <input type="text" name="zipCode" id="zipCode" class="form-control" formControlName="zipCode" placeholder="ex:11-231">
+                        <div *ngIf="zipCode.invalid && (zipCode.dirty || zipCode.touched)" class="alert alert-danger">
+                            <div *ngIf="zipCode.errors.pattern">
+                                Incorrect format
+                            </div>
+                            <div *ngIf="zipCode.errors.required">
+                                This field is required
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success mt-2 form-control ">Send </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
