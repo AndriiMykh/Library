@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegisterFormComponent } from './common/register-form/register-form.component';
 import { FooterComponent } from './common/footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HeaderComponent } from './common/header/header.component';
 const routes:Routes=[
   {path: 'registrationForm', component:RegisterFormComponent}
 ];
@@ -14,7 +15,8 @@ const routes:Routes=[
   declarations: [
     AppComponent,
     RegisterFormComponent,
-    FooterComponent
+    FooterComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
