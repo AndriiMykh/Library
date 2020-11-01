@@ -1,0 +1,21 @@
+<div class="myWrapper">
+    <div class="container h-100">
+        <div class="row align-items-center h-100">
+            <div class="col-3 mx-auto">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h5 class="card-title"> Login</h5>
+                    </div>
+                    <div class="card-body">
+                        <input type="email" class="form-control mb-3" placeholder="Enter email" [(ngModel)]="email">
+                        <input type="password" class="form-control mb-3" placeholder="Enter the password" [(ngModel)]="password">
+                      <button href="#" class="btn btn-primary" (click)="login()">Login</button>
+                    </div>
+                    <div class="card-footer">
+                        <a routerLink="registrationForm">Don't have an account?</a>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>

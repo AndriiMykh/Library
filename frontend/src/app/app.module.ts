@@ -11,16 +11,22 @@ import { HeaderComponent } from './components/header/header.component';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { ReaderService } from './service/reader.service';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 const routes:Routes=[
-  {path: 'registrationForm', component:RegisterFormComponent}
+  {path: 'registrationForm', component:RegisterFormComponent},
+  {path: 'login', component:LoginComponent},
+  {path: 'welcome/:id', component:WelcomeComponent},
 ];
 @NgModule({
   declarations: [
     AppComponent,
     RegisterFormComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    LoginComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,
