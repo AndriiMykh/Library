@@ -1,17 +1,17 @@
 import { Address } from './address';
 import { Book } from './book';
 import { Review } from './review';
+import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/template';
 
 export class Reader {
     email:string;
     password:string;
-    private _adress: Address;
-    public get adress(): Address {
-        return this._adress;
-    }
-    public set adress(value: Address) {
-        this._adress = value;
-    }
+    address: Address;
     books:Book[];
     review:Review[];
+    constructor(email:string,password:string,address:Address){
+        this.email=email;
+        this.password=password;
+        this.address=address
+    }
 }

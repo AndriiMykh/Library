@@ -9,6 +9,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HeaderComponent } from './components/header/header.component';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { ReaderService } from './service/reader.service';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes:Routes=[
   {path: 'registrationForm', component:RegisterFormComponent}
@@ -27,9 +29,10 @@ const routes:Routes=[
     AppRoutingModule,
     FontAwesomeModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ReaderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

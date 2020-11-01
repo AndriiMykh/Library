@@ -18,7 +18,7 @@
                         <label for="password" class="text-light bg-dark">Password:</label>
                         <input type="password" class="form-control" id="password" formControlName="password">
                         <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
-                            <div *ngIf="password.errors.required">
+                            <div *ngIf="password.errors.required || password.errors.notWhitespaces">
                                 This field is required
                             </div>
                             <div *ngIf="password.errors.minlength">
@@ -30,7 +30,7 @@
                         <label for="city" class="text-light bg-dark">City:</label>
                         <input type="text" name="City" id="city" class="form-control" formControlName="city">
                             <div *ngIf="city.invalid && (city.dirty || city.touched)" class="alert alert-danger">
-                                <div *ngIf="city.errors.required">
+                                <div *ngIf="city.errors.required || city.errors.notWhitespaces">
                                     This field is required
                                 </div>
                                 <div *ngIf="city.errors.minlength">
@@ -41,21 +41,21 @@
                         <label for="street" class="text-light bg-dark">Street:</label>
                         <input type="text" name="street" id="street" class="form-control" formControlName="street">
                         <div *ngIf="street.invalid && (street.dirty || street.touched)" class="alert alert-danger">
-                            <div *ngIf="street.errors.required">
+                            <div *ngIf="street.errors.required || street.errors.notWhitespaces">
                                 This field is required
                             </div>
                         </div>
                         <label for="houseNumber" class="text-light bg-dark">House number:</label>
                         <input type="text" name="houseNumber" id="houseNumber" class="form-control" formControlName="houseNumber">
                         <div *ngIf="houseNumber.invalid && (houseNumber.dirty || houseNumber.touched)" class="alert alert-danger">
-                            <div *ngIf="houseNumber.errors.required">
+                            <div *ngIf="houseNumber.errors.required || houseNumber.errors.notWhitespaces">
                                 This field is required
                             </div>
                         </div>
                         <label for="flatNumber" class="text-light bg-dark">Flat number:</label>
                         <input type="text" name="flatNumber" id="flatNumber" class="form-control" formControlName="flatNumber">
                         <div *ngIf="flatNumber.invalid && (flatNumber.dirty || flatNumber.touched)" class="alert alert-danger">
-                            <div *ngIf="flatNumber.errors.required">
+                            <div *ngIf="flatNumber.errors.required || flatNumber.errors.notWhitespaces">
                                 This field is required
                             </div>
                         </div>
