@@ -9,6 +9,7 @@ import java.util.SortedSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -45,7 +46,7 @@ public class Reader {
 	private List<Review> reviews=new ArrayList<>();
 	@Embedded
 	private Address address;
-	
+
 	public boolean findBooksInsidePresentsById(Book checkBook){
 		for (Book book : books) {
 			if(book.getId()==checkBook.getId()) {

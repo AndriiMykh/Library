@@ -51,9 +51,9 @@ public class BookControllerTest {
     @BeforeEach
     void setUp() {
         this.bookList = new ArrayList<>();
-        bookList.add(new Book(1L,"Robinson Crusoe", "Book about man on island", 2, null, null));
-        bookList.add(new Book(2L,"Tom sawyer", "Book about young boy and his friends", 5,null, null));
-        bookList.add(new Book(3L,"Robinson Crusoe", "Book about man on island", 3,null, null));
+        bookList.add(new Book(1L,"Robinson Crusoe", "Book about man on island", 2, null, null, null));
+        bookList.add(new Book(2L,"Tom sawyer", "Book about young boy and his friends", 5,null, null, null));
+        bookList.add(new Book(3L,"Robinson Crusoe", "Book about man on island", 3,null, null, null));
 
         objectMapper.registerModule(new ProblemModule());
         objectMapper.registerModule(new ConstraintViolationProblemModule());
@@ -71,7 +71,7 @@ public class BookControllerTest {
     @Test
     void shouldFindBookById() throws Exception {
         final Long bookId = 1L;
-        final Book book = new Book(3L,"Robinson Crusoe", "Book about man on island", 3,null, null);
+        final Book book = new Book(3L,"Robinson Crusoe", "Book about man on island", 3,null, null, null);
         
         given(bookService.findBookById(bookId)).willReturn(Optional.of(book));
         
@@ -97,7 +97,7 @@ public class BookControllerTest {
     	
     	 given(bookService.createBook(any(Book.class))).willAnswer((invocation) -> invocation.getArgument(0));
     	 
-    	 Book book=new Book(3L,"Robinson Crusoe", "Book about man on island", 3,null, null);
+    	 Book book=new Book(3L,"Robinson Crusoe", "Book about man on island", 3,null, null, null);
     	     	 
     	 this.mockMvc.perform(post("/api/books/")
          .contentType(MediaType.APPLICATION_JSON)
@@ -111,7 +111,7 @@ public class BookControllerTest {
     @Test
     void updateBook() throws Exception {
         Long bookId = 1L;
-        Book book = new Book(bookId,"Robinson Crusoe", "Book about man on island", 3,null, null);
+        Book book = new Book(bookId,"Robinson Crusoe", "Book about man on island", 3,null, null, null);
         given(bookService.findBookById(bookId)).willReturn(Optional.of(book));
         given(bookService.updateBook(any(Book.class))).willAnswer((invocation) -> invocation.getArgument(0));
         
@@ -127,7 +127,7 @@ public class BookControllerTest {
     void shouldReturn404WhenUpdatingBookIdDoesntExist() throws Exception {
     	final Long bookId = 1L;
     	given(bookService.findBookById(bookId)).willReturn(Optional.empty());
-    	 Book book=new Book(1L,"Robinson Crusoe", "Book about man on island", 3,null, null);
+    	 Book book=new Book(1L,"Robinson Crusoe", "Book about man on island", 3,null, null, null);
     	 
          this.mockMvc.perform(put("/api/books/{id}", bookId)
                  .contentType(MediaType.APPLICATION_JSON)
@@ -138,7 +138,7 @@ public class BookControllerTest {
     @Test
     void shouldDeleteBook() throws Exception {
         Long bookId = 1L;
-        Book book=new Book(1L,"Robinson Crusoe", "Book about man on island", 3, null, null);
+        Book book=new Book(1L,"Robinson Crusoe", "Book about man on island", 3, null, null, null);
         given(bookService.findBookById(bookId)).willReturn(Optional.of(book));
         doNothing().when(bookService).deleteBookById(book.getId());
         

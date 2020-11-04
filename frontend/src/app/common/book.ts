@@ -7,4 +7,5 @@ export class Book {
     quantity:number;
     readers:Reader;
     reviews:Review[];
+    category:string;
 }

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,6 +39,8 @@ public class Book {
 	@ManyToMany(fetch = FetchType.LAZY,
 			cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private List<Reader> readers = new ArrayList<Reader>();
+	@Enumerated(EnumType.STRING)
+	private Category category;
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Review> reviews=new ArrayList<>();

@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Book;
+import com.example.demo.entity.Category;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 	@Query("SELECT u FROM Book u WHERE u.title LIKE CONCAT('%',:name,'%')")
@@ -16,5 +17,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	
 	@Query("SELECT u FROM Book u WHERE u.title = :title")
 	Optional<Book> findBookByTitle(@Param("title") String title);
+	
+	@Query("SELECT u FROM Book u WHERE u.category = :category")
+	Optional<Book> findBooksByCategory(@Param("category") Category category);
 	
 }

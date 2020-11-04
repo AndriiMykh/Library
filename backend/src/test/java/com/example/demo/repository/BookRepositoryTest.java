@@ -37,9 +37,9 @@ public class BookRepositoryTest {
 	@Test
 	public void shouldReturnAll() {
 		List<Book> datas = new ArrayList<>();
-		datas.add(new Book(1L,"Robinson Crusoe", "Book about man on island", 2, null, null));
-		datas.add(new Book(2L,"Robinson Crusoe", "Book about man on island", 5,null, null));
-		datas.add(new Book(3L,"Robinson Crusoe", "Book about man on island", 3,null, null));
+		datas.add(new Book(1L,"Robinson Crusoe", "Book about man on island", 2, null, null, null));
+		datas.add(new Book(2L,"Robinson Crusoe", "Book about man on island", 5,null, null, null));
+		datas.add(new Book(3L,"Robinson Crusoe", "Book about man on island", 3,null, null, null));
         given(bookRepository.findAll()).willReturn(datas);
         
         List<Book> expected = bookService.findAllBooks();
@@ -50,7 +50,7 @@ public class BookRepositoryTest {
 	
 	@Test
 	public void shouldSaveSuccesfullyOne() {
-		Book book = new Book(1L,"Robinson Crusoe", "Book about man on island", 5, null, null);
+		Book book = new Book(1L,"Robinson Crusoe", "Book about man on island", 5, null, null, null);
 		given(bookRepository.save(book)).willAnswer(answer->answer.getArgument(0));
         Book savedBook = bookService.createBook(book);
         
@@ -64,10 +64,10 @@ public class BookRepositoryTest {
 	public void shouldSaveSuccesfullyList() {
 		List<Book> datas = new ArrayList<>();
 		int expected=4;
-		datas.add(new Book(1L,"Robinson Crusoe", "Book about man on island", 2, null, null));
-		datas.add(new Book(2L,"Robinson Crusoe", "Book about man on island", 5,null, null));
-		datas.add(new Book(3L,"Robinson Crusoe", "Book about man on island", 3,null, null));
-		datas.add(new Book(4L,"Robinson Crusoe", "Book about man on island", 8,null, null));
+		datas.add(new Book(1L,"Robinson Crusoe", "Book about man on island", 2, null, null, null));
+		datas.add(new Book(2L,"Robinson Crusoe", "Book about man on island", 5,null, null, null));
+		datas.add(new Book(3L,"Robinson Crusoe", "Book about man on island", 3,null, null, null));
+		datas.add(new Book(4L,"Robinson Crusoe", "Book about man on island", 8,null, null, null));
 		given(bookRepository.saveAll(datas)).willAnswer(answer->answer.getArgument(0));
 		
 		List<Book> books = bookService.createBooks(datas); 
@@ -78,7 +78,7 @@ public class BookRepositoryTest {
 	
 	@Test
 	public void updateBook() {
-		Book book = new Book(1L,"Robinson Crusoe", "Book about man on island", 5, null, null);
+		Book book = new Book(1L,"Robinson Crusoe", "Book about man on island", 5, null, null, null);
 		
 		given(bookRepository.save(book)).willReturn(book);
 		
@@ -101,8 +101,8 @@ public class BookRepositoryTest {
 	@Test
 	public void shouldFindBookByTitle() {
 		List<Book> datas = new ArrayList<>();
-		datas.add(new Book(2L,"tom sawyer", "Book about boy", 5,null, null));
-		datas.add(new Book(4L,"tom sawyer", "Book about boy", 8,null, null));
+		datas.add(new Book(2L,"tom sawyer", "Book about boy", 5,null, null, null));
+		datas.add(new Book(4L,"tom sawyer", "Book about boy", 8,null, null, null));
 		
 		String title = "tom";
 		given(bookRepository.findBooksByTitle(title)).willReturn(datas);
@@ -117,7 +117,7 @@ public class BookRepositoryTest {
 	
 	@Test
 	void shouldThrowBookAlreadyExists() {
-		Book book = new Book(1L,"Robinson Crusoe", "Book about man on island", 5, null, null);
+		Book book = new Book(1L,"Robinson Crusoe", "Book about man on island", 5, null, null, null);
 		
 		String title = "Robinson Crusoe";
 		given(bookRepository.findBookByTitle(title)).willReturn(Optional.of(book));

@@ -15,12 +15,17 @@ export class LoginComponent implements OnInit {
   constructor(private readerService:ReaderService,private router: Router) { }
 
   ngOnInit(): void {
-    this.wrongData=false
+    this.readerService.wrongPasswordOrEmail.subscribe(
+      res=>{
+        this.wrongData=res
+      }
+    )
   }
   login(){
     console.log(this.email)
     console.log(this.password)
       this.readerService.getReaderByEmailAndPassword(this.email,this.password)
+
     }
   
 

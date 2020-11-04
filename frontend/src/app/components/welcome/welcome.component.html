@@ -1,1 +1,15 @@
-<p>welcome works!</p>
+<div class="wrapper" *ngFor="let book of books">
+<div class="card">
+    <div class="card-body text-center">
+    <h5 class="card-title">{{book.title}}</h5>
+      
+      <p class="card-text myHeight">{{book.descr}}</p>
+    </div>
+    <ul class="list-group list-group-flush text-center">
+      <li class="list-group-item">Available:{{book.quantity}}</li>
+    </ul>
+    <div class="card-body text-center">
+      <button class="btn btn btn-info">Order it</button>
+    </div>
+  </div>
+</div>

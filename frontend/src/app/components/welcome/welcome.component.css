@@ -1,0 +1,13 @@
+.wrapper{
+    margin-top: 4rem;
+    margin-left: 1rem;
+    display: inline-block;
+}
+.card{
+    width: 18rem;
+    height: 25rem;
+}
+
+.myHeight{
+    height: 13rem;
+}

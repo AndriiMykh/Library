@@ -14,7 +14,7 @@ export class ReaderService {
   }
   private baseURL:string='http://localhost:8080/api/readers/';
   public LoggedIn = new BehaviorSubject<boolean>(false);
-
+  public wrongPasswordOrEmail = new BehaviorSubject<boolean>(false);
 
   postReader(reader:Reader){
     return this.http.post<Reader>(this.baseURL,reader)
@@ -26,9 +26,11 @@ export class ReaderService {
           sessionStorage.setItem('authenticatedUser', data.email);
           this.router.navigate(['/welcome',data.id])
           this.LoggedIn.next(true); 
+          this.wrongPasswordOrEmail.next(false)
         },
         error=>{
           console.error("Wrong data")
+          this.wrongPasswordOrEmail.next(true)
         }
     )
   }

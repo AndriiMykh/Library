@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Book;
+import com.example.demo.entity.Category;
 import com.example.demo.entity.Reader;
 import com.example.demo.entity.Review;
 import com.example.demo.repository.BookRepository;
@@ -48,7 +49,10 @@ public class BookController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-    
+    @GetMapping("/categories/{categoryName}")
+    public Optional<Book> getBookById(@PathVariable String categoryName) {
+        return bookService.findByCategory(Category.valueOf(categoryName.toString().toUpperCase()));
+    }
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public Book createBook(@RequestBody Book book) {
@@ -64,6 +68,7 @@ public class BookController {
                 	bookObj.setQuantity(book.getQuantity());
                 	bookObj.setTitle(book.getTitle());
                 	bookObj.setReviews(book.getReviews());
+                	bookObj.setCategory(book.getCategory());
                     return ResponseEntity.ok(bookService.updateBook(bookObj));
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());

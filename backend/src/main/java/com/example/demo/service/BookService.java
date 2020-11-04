@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Book;
+import com.example.demo.entity.Category;
 import com.example.demo.exception.BookAlreadyExists;
 import com.example.demo.repository.BookRepository;
 
@@ -51,6 +52,9 @@ public class BookService {
     
     public List<Book> findByTitle(String name) {
     	return bookRepository.findBooksByTitle(name);
+    }
+    public Optional<Book> findByCategory(Category category) {
+    	return bookRepository.findBooksByCategory(category);
     }
 	
 }
