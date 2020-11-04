@@ -55,7 +55,7 @@ public class ReaderController {
 	}
 	
 	@GetMapping("/login")
-	private Optional<Reader> getReaderByEmailAndPassword(
+	private Reader getReaderByEmailAndPassword(
 			@RequestParam("email") String email,
 			@RequestParam("password") String password){
 		return readerService.findByEmailAndPassword(email, password);

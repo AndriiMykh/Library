@@ -28,8 +28,9 @@ public class ReaderService {
 		return readerRepository.findAll();
     }
     
-    public Optional<Reader> findByEmailAndPassword(String email, String password) {
-		return readerRepository.findByEmailAndPassword(email, password);
+    public Reader findByEmailAndPassword(String email, String password) {
+		return readerRepository.findByEmailAndPassword(email, password)
+				.orElseThrow(()->new DataNotFound(email));
     }
     
    public Optional<Reader> findById(long id) {

@@ -13,11 +13,14 @@ import { ReaderService } from './service/reader.service';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import {AuthGuard} from './common/auth-guard';
 
 const routes:Routes=[
+
+  {path: '', component:LoginComponent},
   {path: 'registrationForm', component:RegisterFormComponent},
   {path: 'login', component:LoginComponent},
-  {path: 'welcome/:id', component:WelcomeComponent},
+  {path: 'welcome/:id', component:WelcomeComponent,canActivate: [AuthGuard]},
 ];
 @NgModule({
   declarations: [

@@ -11,19 +11,17 @@ export class LoginComponent implements OnInit {
 
   email:string='';
   password:string='';
+  wrongData:boolean = false;
   constructor(private readerService:ReaderService,private router: Router) { }
 
   ngOnInit(): void {
+    this.wrongData=false
   }
   login(){
     console.log(this.email)
     console.log(this.password)
-    this.readerService.getReaderByEmailAndPassword(this.email,this.password).subscribe(
-      data=>{
-        console.log(data)
-        this.router.navigate(['/welcome',data.id])
-      }
-    )
-  }
+      this.readerService.getReaderByEmailAndPassword(this.email,this.password)
+    }
+  
 
 }

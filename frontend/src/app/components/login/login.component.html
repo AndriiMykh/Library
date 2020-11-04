@@ -6,7 +6,11 @@
                     <div class="card-header">
                         <h5 class="card-title"> Login</h5>
                     </div>
+
                     <div class="card-body">
+                        <div *ngIf="wrongData" class="alert alert-danger">
+                            Wrong email or password
+                        </div>
                         <input type="email" class="form-control mb-3" placeholder="Enter email" [(ngModel)]="email">
                         <input type="password" class="form-control mb-3" placeholder="Enter the password" [(ngModel)]="password">
                       <button href="#" class="btn btn-primary" (click)="login()">Login</button>

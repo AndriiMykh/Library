@@ -4,13 +4,15 @@ import {Reader} from '../../common/reader';
 import { Address } from 'src/app/common/address';
 import {NotWhitspacesValidator} from '../../common/not-whitspaces-validator';
 import{ReaderService} from '../../service/reader.service';
+import {Router} from '@angular/router';
+
 @Component({
   selector: 'app-register-form',
   templateUrl: './register-form.component.html',
   styleUrls: ['./register-form.component.css']
 })
 export class RegisterFormComponent implements OnInit {
-  constructor(private formBuilder: FormBuilder,private readerService:ReaderService) { }
+  constructor(private formBuilder: FormBuilder,private readerService:ReaderService, private router: Router ) { }
   checkoutFormGroup: FormGroup;
   reader:Reader;
   newReader:Reader;
@@ -43,6 +45,7 @@ export class RegisterFormComponent implements OnInit {
     this.readerService.postReader(this.newReader).subscribe(
       data=>{
         console.log("created")
+        this.router.navigateByUrl('/login')
       },
       error=>{
         alert(error.error.message)

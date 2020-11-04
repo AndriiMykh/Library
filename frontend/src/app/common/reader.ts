@@ -4,6 +4,7 @@ import { Review } from './review';
 import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/template';
 
 export class Reader {
+    [x: string]: any;
     id:number;
     email:string;
     password:string;
