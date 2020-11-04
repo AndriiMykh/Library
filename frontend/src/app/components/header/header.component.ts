@@ -7,7 +7,7 @@ import { ReaderService } from 'src/app/service/reader.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
+  number:number=0;
   constructor(public readerService:ReaderService) { 
   }
   elementIs:boolean=false;

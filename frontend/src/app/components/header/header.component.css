@@ -1,0 +1,23 @@
+.books{
+    display: flex;
+    background-color: azure;
+    height: 2.5rem;
+    width: 3rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    
+}
+.number{
+    display: flex;
+    margin: 2px;
+    /* margin-top: 8px; */
+}
+.vertical{
+    height: 2.5rem;
+    display: flex;
+    border-left: 2px solid black;
+    margin-left: 2px;
+    margin-right: 2px;
+
+}
