@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -61,6 +62,12 @@ public class BookController {
     public Set<Category> getAllCategories() {
         return bookService.getAllCategories();
     }
+    @GetMapping("/searchByKeyword/{keyword}")
+    public List<Book> getByKeyword(@PathVariable String keyword) {
+    	String capitalize = keyword.substring(0,1).toUpperCase()+keyword.substring(1,keyword.length()).toLowerCase();
+        return bookService.findByTitle(capitalize);
+    }
+    
     
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)

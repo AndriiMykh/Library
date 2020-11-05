@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReaderService } from 'src/app/service/reader.service';
 import { OrderService } from 'src/app/service/order.service';
 import { BookService } from 'src/app/service/book.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
   number:number=0;
   categories:string[]=[];
+  actualUrl:string;
+  keyword:string='';
   constructor(public readerService:ReaderService,
     private orderService:OrderService,
     private bookService:BookService,
@@ -19,6 +21,7 @@ export class HeaderComponent implements OnInit {
     ) { 
   }
   elementIs:boolean=false;
+  // && ===
   ngOnInit(): void {
     this.readerService.LoggedIn.subscribe(
       data=>{
@@ -44,7 +47,10 @@ export class HeaderComponent implements OnInit {
     this.readerService.logout();
   }
   chooseCategory(category:string){
-    
     this.router.navigate(['allBooks/',category.toLowerCase()])
+  }
+  search(){
+    console.log()
+    this.router.navigate(['searchByKeyword/',this.keyword])
   }
 }

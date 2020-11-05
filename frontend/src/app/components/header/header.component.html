@@ -32,8 +32,8 @@
       </div>
       </a>
       <form class="form-inline mt-2 mt-md-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" *ngIf="elementIs ">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" *ngIf="elementIs ">Search</button>
+        <input [(ngModel)]="keyword" [ngModelOptions]="{standalone: true}" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" *ngIf="elementIs "  >
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" *ngIf="elementIs " (click)="search(keyword)">Search</button>
       </form>
       <button class="ml-3 btn btn-secondary" routerLink="login" *ngIf="!elementIs ">Login</button>
       <button class="ml-3 btn btn-secondary" (click)="logout()" *ngIf="elementIs ">Logout</button>

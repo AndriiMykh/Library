@@ -29,7 +29,15 @@ export class WelcomeComponent implements OnInit {
           this.books = data;
           console.log(data)
         })
-      }else{
+      }if(this.route.snapshot.paramMap.has('keyword')){
+        const keyword: string = this.route.snapshot.paramMap.get('keyword')
+        this.bookService.getBooksByKeyword(keyword).subscribe(
+          data => {
+            this.books = data;
+            console.log(data)
+          })
+      }
+      else{
         this.bookService.getAllBooks().subscribe(
           data => {
             this.books = data;

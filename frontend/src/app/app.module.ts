@@ -24,6 +24,7 @@ const routes:Routes=[
   {path: 'login', component:LoginComponent},
   {path: 'allBooks', component:WelcomeComponent,canActivate: [AuthGuard]},
   {path: 'allBooks/:category', component:WelcomeComponent,canActivate: [AuthGuard]},
+  {path: 'searchByKeyword/:keyword', component:WelcomeComponent,canActivate: [AuthGuard]},
 
 ];
 @NgModule({

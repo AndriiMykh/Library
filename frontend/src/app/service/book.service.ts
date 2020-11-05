@@ -25,4 +25,8 @@ export class BookService {
     return this.http.get<Book[]>(this.baseURL+`categories/${category}/`)
   }
 
+  getBooksByKeyword(keyword:string){
+    return this.http.get<Book[]>(this.baseURL+`searchByKeyword/${keyword}/`)
+  }
+
 }
