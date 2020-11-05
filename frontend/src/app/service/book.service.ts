@@ -17,5 +17,12 @@ export class BookService {
     return this.http.get<Book[]>(this.baseURL);
   }
 
+  getAllCategories():Observable<string[]>{
+    return this.http.get<string[]>(this.baseURL+"categories/")
+  }
+
+  getBooksByCategory(category:string):Observable<Book[]>{
+    return this.http.get<Book[]>(this.baseURL+`categories/${category}/`)
+  }
 
 }

@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -49,10 +51,17 @@ public class BookController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    
     @GetMapping("/categories/{categoryName}")
-    public Optional<Book> getBookById(@PathVariable String categoryName) {
+    public List<Book> getBookById(@PathVariable String categoryName) {
         return bookService.findByCategory(Category.valueOf(categoryName.toString().toUpperCase()));
     }
+    
+    @GetMapping("/categories")
+    public Set<Category> getAllCategories() {
+        return bookService.getAllCategories();
+    }
+    
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public Book createBook(@RequestBody Book book) {

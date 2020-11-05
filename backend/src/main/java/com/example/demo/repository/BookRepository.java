@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +20,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	Optional<Book> findBookByTitle(@Param("title") String title);
 	
 	@Query("SELECT u FROM Book u WHERE u.category = :category")
-	Optional<Book> findBooksByCategory(@Param("category") Category category);
+	List<Book> findBooksByCategory(@Param("category") Category category);
+	
+	@Query("SELECT category FROM Book")
+	Set<Category> findAllCategories();
 	
 }

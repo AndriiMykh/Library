@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ReaderService } from 'src/app/service/reader.service';
 import { OrderService } from 'src/app/service/order.service';
+import { BookService } from 'src/app/service/book.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +11,12 @@ import { OrderService } from 'src/app/service/order.service';
 })
 export class HeaderComponent implements OnInit {
   number:number=0;
-  constructor(public readerService:ReaderService,private orderService:OrderService) { 
+  categories:string[]=[];
+  constructor(public readerService:ReaderService,
+    private orderService:OrderService,
+    private bookService:BookService,
+    private router:Router
+    ) { 
   }
   elementIs:boolean=false;
   ngOnInit(): void {
@@ -24,8 +31,20 @@ export class HeaderComponent implements OnInit {
         this.number=data
       }
     )
+    this.bookService.getAllCategories().subscribe(
+      data=>{
+      this.categories=data
+      }
+    )
+    this.categories.forEach(cat=>{
+      console.log(cat)
+    })
   }
   logout(){
     this.readerService.logout();
+  }
+  chooseCategory(category:string){
+    
+    this.router.navigate(['allBooks/',category.toLowerCase()])
   }
 }

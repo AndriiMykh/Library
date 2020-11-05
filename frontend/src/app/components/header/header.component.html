@@ -15,6 +15,14 @@
         <li class="nav-item active">
           <a class="nav-link" routerLink="registrationForm" *ngIf="!elementIs">Registration <span class="sr-only">(current)</span></a>
         </li>
+        <li class="myDropdown nav-item active nav-link bg-dark" *ngIf="elementIs">
+          <span>Categories</span>
+          <div class="myDropdown-content text-light bg-dark" >
+            <div *ngFor="let category of categories">
+            <a class="mt-3 text-light" (click)="chooseCategory(category)">{{category | titlecase}}</a>
+          </div>
+          </div>
+        </li>
       </ul>
       <a routerLink="/actualOrder">
       <div class="books" *ngIf="elementIs ">

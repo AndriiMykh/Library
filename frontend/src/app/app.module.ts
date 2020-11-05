@@ -23,6 +23,8 @@ const routes:Routes=[
   {path: 'registrationForm', component:RegisterFormComponent},
   {path: 'login', component:LoginComponent},
   {path: 'allBooks', component:WelcomeComponent,canActivate: [AuthGuard]},
+  {path: 'allBooks/:category', component:WelcomeComponent,canActivate: [AuthGuard]},
+
 ];
 @NgModule({
   declarations: [

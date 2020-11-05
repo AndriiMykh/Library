@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,8 +54,13 @@ public class BookService {
     public List<Book> findByTitle(String name) {
     	return bookRepository.findBooksByTitle(name);
     }
-    public Optional<Book> findByCategory(Category category) {
+    
+    public List<Book> findByCategory(Category category) {
     	return bookRepository.findBooksByCategory(category);
+    }
+    
+    public Set<Category> getAllCategories(){
+    	return bookRepository.findAllCategories();
     }
 	
 }
