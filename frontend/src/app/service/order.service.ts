@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class OrderService {
+
   books: Book[] = [];
   totalQuantity: Subject<number> = new Subject<number>();
   alreadyAdded:boolean=false;
@@ -27,6 +28,14 @@ export class OrderService {
     }
     for (let book of this.books)
       console.log("Added book:" + book.title);
+    this.totalQuantity.next(this.books.length)
+  }
+  removeBook(bookToRemove: Book) {
+    console.log("bookToRemove:"+bookToRemove.title)
+    this.books=this.books.filter(book=>book!==bookToRemove);
+    this.books.forEach(book=>{
+      console.log("Filtered book:"+book.title)
+    })
     this.totalQuantity.next(this.books.length)
   }
 

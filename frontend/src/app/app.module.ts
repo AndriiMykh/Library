@@ -14,13 +14,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import {AuthGuard} from './common/auth-guard';
+import { ActualOrderComponent } from './components/actual-order/actual-order.component';
 
 const routes:Routes=[
 
   {path: '', component:LoginComponent},
+  {path: 'actualOrder', component:ActualOrderComponent, canActivate: [AuthGuard]},
   {path: 'registrationForm', component:RegisterFormComponent},
   {path: 'login', component:LoginComponent},
-  {path: 'welcome/:id', component:WelcomeComponent,canActivate: [AuthGuard]},
+  {path: 'allBooks', component:WelcomeComponent,canActivate: [AuthGuard]},
 ];
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ const routes:Routes=[
     FooterComponent,
     HeaderComponent,
     LoginComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ActualOrderComponent
   ],
   imports: [
     BrowserModule,

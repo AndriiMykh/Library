@@ -23,8 +23,8 @@ export class ReaderService {
     let params = new HttpParams().set("email",email).set("password", password);
     return this.http.get<Reader>(this.baseURL+"login",{params}).subscribe(
         data=>{
-          sessionStorage.setItem('authenticatedUser', data.email);
-          this.router.navigate(['/welcome',data.id])
+          sessionStorage.setItem('authenticatedUser', data.id.toString());
+          this.router.navigate(['/allBooks'])
           this.LoggedIn.next(true); 
           this.wrongPasswordOrEmail.next(false)
         },
