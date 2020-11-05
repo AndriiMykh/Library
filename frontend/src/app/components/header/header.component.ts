@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReaderService } from 'src/app/service/reader.service';
+import { OrderService } from 'src/app/service/order.service';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +9,7 @@ import { ReaderService } from 'src/app/service/reader.service';
 })
 export class HeaderComponent implements OnInit {
   number:number=0;
-  constructor(public readerService:ReaderService) { 
+  constructor(public readerService:ReaderService,private orderService:OrderService) { 
   }
   elementIs:boolean=false;
   ngOnInit(): void {
@@ -16,6 +17,11 @@ export class HeaderComponent implements OnInit {
       data=>{
         this.elementIs=data
         console.log("button"+this.elementIs)
+      }
+    )
+    this.orderService.totalQuantity.subscribe(
+      data=>{
+        this.number=data
       }
     )
   }

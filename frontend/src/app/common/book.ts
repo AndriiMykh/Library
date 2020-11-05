@@ -8,4 +8,5 @@ export class Book {
     readers:Reader;
     reviews:Review[];
     category:string;
+    id:number;
 }
