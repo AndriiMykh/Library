@@ -58,4 +58,8 @@ export class ReaderService {
     return this.http.get<Book[]>(this.baseURL+`getBooks/${id}`);
   }
 
+  takeBookBack(book:Book){
+    const id=sessionStorage.getItem('authenticatedUser');
+    return this.http.post(this.baseURL+`deleteBooksFromReader/${id}`, book);
+  }
 }

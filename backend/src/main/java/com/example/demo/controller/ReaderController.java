@@ -142,15 +142,18 @@ public class ReaderController {
     }
     
     @PostMapping("/deleteBooksFromReader/{userId}")
-    private ResponseEntity<Reader> deleteBooksFromReader(@PathVariable long userId,@RequestBody Set<Book> books){
+    private ResponseEntity<Reader> deleteBooksFromReader(@PathVariable long userId,@RequestBody Book book){
     		Optional<Reader> reader = readerService.findById(userId);
     		if(reader.isPresent()) {
     			final Reader readerWithBooks = reader.get();
-    			books.forEach(book->{
-    				readerWithBooks.deleteBookFromReaderById(book.getId());
-    				book.setQuantity(book.getQuantity()+1);
-    				bookService.updateBook(book);
-    			});
+    			readerWithBooks.deleteBookFromReaderById(book.getId());
+				book.setQuantity(book.getQuantity()+1);
+				bookService.updateBook(book);
+//    			books.forEach(book->{
+//    				readerWithBooks.deleteBookFromReaderById(book.getId());
+//    				book.setQuantity(book.getQuantity()+1);
+//    				bookService.updateBook(book);
+//    			});
     			readerService.updateReader(readerWithBooks);
     			return ResponseEntity.ok(readerWithBooks);
     		}

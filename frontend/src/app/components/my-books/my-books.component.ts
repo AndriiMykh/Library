@@ -12,9 +12,22 @@ export class MyBooksComponent implements OnInit {
   constructor(private readerService:ReaderService) { }
   books:Book[]=[]
   ngOnInit(): void {
+    this.getBooks()
+  }
+  getBooks(){
     this.readerService.getBooks().subscribe(
       data=>{
         this.books=data
+      }
+    )
+  }
+  takeBookBack(book:Book){
+    this.readerService.takeBookBack(book).subscribe(
+      data=>{
+        console.log("successfully")
+        this.getBooks()
+      },error=>{
+        console.log("Error happened")
       }
     )
   }
