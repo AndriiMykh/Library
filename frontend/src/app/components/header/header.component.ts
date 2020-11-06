@@ -53,4 +53,8 @@ export class HeaderComponent implements OnInit {
     console.log()
     this.router.navigate(['searchByKeyword/',this.keyword])
   }
+  showMyBooks(){
+    const id =sessionStorage.getItem('authenticatedUser');
+    this.router.navigate(['myBooks/',id])
+  }
 }

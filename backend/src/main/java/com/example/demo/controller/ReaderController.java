@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+ package com.example.demo.controller;
 
 import java.util.HashSet;
 import java.util.List;
@@ -61,6 +61,17 @@ public class ReaderController {
 		return readerService.findByEmailAndPassword(email, password);
 	}
 	
+	@GetMapping("/getBooks/{id}")
+	private List<Book> getReaderBooks(@PathVariable long id){
+		List<Book> books;
+		Optional<Reader> reader=readerService.findById(id);
+		if(reader.isPresent()) {
+			books=reader.get().getBooks();
+			return books;
+		}else			
+			return null; 
+	}
+	
 	@PostMapping("/")
 	@ResponseStatus(HttpStatus.CREATED)
 	private Reader createReader(@RequestBody Reader reader) {
@@ -93,6 +104,7 @@ public class ReaderController {
     
     @PostMapping("/addBooksToReader/{userId}")
     private ResponseEntity<Reader> addBooksToReader(@PathVariable long userId,@RequestBody Set<Book> books) {
+    	
     		Optional<Reader> reader = readerService.findById(userId);
     		if(reader.isPresent()) {
     			final Reader readerWithBooks = reader.get();

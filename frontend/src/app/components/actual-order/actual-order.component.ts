@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from 'src/app/service/order.service';
 import { Book } from 'src/app/common/book';
+import { ReaderService } from 'src/app/service/reader.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-actual-order',
@@ -9,7 +11,7 @@ import { Book } from 'src/app/common/book';
 })
 export class ActualOrderComponent implements OnInit {
 
-  constructor(private orderService:OrderService) { }
+  constructor(private orderService:OrderService,private readerService:ReaderService, private router:Router) { }
   orderedBooks:Book[]=[];
   ngOnInit(): void {
    this.orderedBooks=this.orderService.books
@@ -17,5 +19,14 @@ export class ActualOrderComponent implements OnInit {
   removeBookFromOrder(book:Book){
     this.orderService.removeBook(book);
     this.orderedBooks=this.orderService.books
+  }
+  confirmOrder(){
+    this.readerService.addBooksToReader(this.orderedBooks).subscribe(
+      data=>{
+        console.log("Added successfully")
+        this.orderService.removeAllBooks();
+        this.router.navigate(['/allBooks'])
+      }
+    );
   }
 }

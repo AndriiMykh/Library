@@ -15,6 +15,7 @@ import { LoginComponent } from './components/login/login.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import {AuthGuard} from './common/auth-guard';
 import { ActualOrderComponent } from './components/actual-order/actual-order.component';
+import { MyBooksComponent } from './components/my-books/my-books.component';
 
 const routes:Routes=[
 
@@ -25,6 +26,7 @@ const routes:Routes=[
   {path: 'allBooks', component:WelcomeComponent,canActivate: [AuthGuard]},
   {path: 'allBooks/:category', component:WelcomeComponent,canActivate: [AuthGuard]},
   {path: 'searchByKeyword/:keyword', component:WelcomeComponent,canActivate: [AuthGuard]},
+  {path: 'myBooks/:id', component:MyBooksComponent,canActivate: [AuthGuard]},
 
 ];
 @NgModule({
@@ -35,7 +37,8 @@ const routes:Routes=[
     HeaderComponent,
     LoginComponent,
     WelcomeComponent,
-    ActualOrderComponent
+    ActualOrderComponent,
+    MyBooksComponent
   ],
   imports: [
     BrowserModule,

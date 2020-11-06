@@ -41,3 +41,6 @@
   .myDropdown:hover .myDropdown-content {
     display: block;
   }
+  .pointer{
+    cursor:pointer;
+  }

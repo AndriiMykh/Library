@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Reader } from '../common/reader';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Book } from '../common/book';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class ReaderService {
   postReader(reader:Reader){
     return this.http.post<Reader>(this.baseURL,reader)
   }
+
   getReaderByEmailAndPassword(email:string, password:string){
     let params = new HttpParams().set("email",email).set("password", password);
     return this.http.get<Reader>(this.baseURL+"login",{params}).subscribe(
@@ -34,14 +36,26 @@ export class ReaderService {
         }
     )
   }
+
   logout() {  
     sessionStorage.removeItem('authenticatedUser');
     this.router.navigate(['login'])  
     this.LoggedIn.next(false);
   }  
+
   public get loggedIn(): boolean {  
     return (sessionStorage.getItem('authenticatedUser') !== null);  
   }  
 
+
+  addBooksToReader( books:Book[]){
+    const id=sessionStorage.getItem('authenticatedUser');
+    return this.http.post(this.baseURL+`addBooksToReader/${id}`,books)
+  }
+
+  getBooks(){
+    const id=sessionStorage.getItem('authenticatedUser');
+    return this.http.get<Book[]>(this.baseURL+`getBooks/${id}`);
+  }
 
 }

@@ -38,5 +38,11 @@ export class OrderService {
     })
     this.totalQuantity.next(this.books.length)
   }
+  
+  removeAllBooks(){
+    this.books=[]
+    this.totalQuantity.next(this.books.length)
+  }
+  
 
 }
