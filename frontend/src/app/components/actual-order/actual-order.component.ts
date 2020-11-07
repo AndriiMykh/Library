@@ -26,6 +26,8 @@ export class ActualOrderComponent implements OnInit {
         console.log("Added successfully")
         this.orderService.removeAllBooks();
         this.router.navigate(['/allBooks'])
+      },error=>{
+        alert(error.error.message)
       }
     );
   }

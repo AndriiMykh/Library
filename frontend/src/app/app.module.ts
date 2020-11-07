@@ -24,7 +24,7 @@ const routes:Routes=[
   {path: 'registrationForm', component:RegisterFormComponent},
   {path: 'login', component:LoginComponent},
   {path: 'allBooks', component:WelcomeComponent,canActivate: [AuthGuard]},
-  {path: 'allBooks/:category', component:WelcomeComponent,canActivate: [AuthGuard]},
+  {path: 'categories/:category', component:WelcomeComponent,canActivate: [AuthGuard]},
   {path: 'searchByKeyword/:keyword', component:WelcomeComponent,canActivate: [AuthGuard]},
   {path: 'myBooks/:id', component:MyBooksComponent,canActivate: [AuthGuard]},
 

@@ -45,9 +45,10 @@ export class HeaderComponent implements OnInit {
   }
   logout(){
     this.readerService.logout();
+    this.orderService.removeAllBooks();
   }
   chooseCategory(category:string){
-    this.router.navigate(['allBooks/',category.toLowerCase()])
+    this.router.navigate(['categories/',category.toLowerCase()])
   }
   search(){
     console.log()

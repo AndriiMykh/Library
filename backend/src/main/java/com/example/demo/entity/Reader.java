@@ -58,6 +58,7 @@ public class Reader {
 	}
 	public List<Book> deleteBookFromReaderById(Long id){
 		books.removeIf(book->(book.getId()==id));
+		
 		return books;
 	}
     public void addReview(Review review) {

@@ -1,5 +1,6 @@
- package com.example.demo.controller;
+package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Reader;
+import com.example.demo.exception.BookNotAvailable;
+import com.example.demo.exception.ForbiddenToOrder;
 import com.example.demo.service.BookService;
 import com.example.demo.service.ReaderService;
 
@@ -33,133 +36,163 @@ import com.example.demo.service.ReaderService;
 public class ReaderController {
 
 	private final ReaderService readerService;
-	
+
 	private final BookService bookService;
-	
+
 	@Autowired
-	public ReaderController(ReaderService readerService,BookService bookService) {
-		this.readerService=readerService;
-		this.bookService=bookService;
+	public ReaderController(ReaderService readerService, BookService bookService) {
+		this.readerService = readerService;
+		this.bookService = bookService;
 	}
-	
+
 	@GetMapping("/")
-	private List<Reader> getAllReaders(){
+	private List<Reader> getAllReaders() {
 		return readerService.findAllReaders();
 	}
-	
+
 	@GetMapping("/{id}")
-	private ResponseEntity<Reader> getReaderById( @PathVariable long id){
-		return readerService.findById(id)
-				.map(ResponseEntity::ok)
-				.orElseGet(()->ResponseEntity.notFound().build());
+	private ResponseEntity<Reader> getReaderById(@PathVariable long id) {
+		return readerService.findById(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
-	
+
 	@GetMapping("/login")
-	private Reader getReaderByEmailAndPassword(
-			@RequestParam("email") String email,
-			@RequestParam("password") String password){
+	private Reader getReaderByEmailAndPassword(@RequestParam("email") String email,
+			@RequestParam("password") String password) {
 		return readerService.findByEmailAndPassword(email, password);
 	}
-	
+
 	@GetMapping("/getBooks/{id}")
-	private List<Book> getReaderBooks(@PathVariable long id){
+	private List<Book> getReaderBooks(@PathVariable long id) {
 		List<Book> books;
-		Optional<Reader> reader=readerService.findById(id);
-		if(reader.isPresent()) {
-			books=reader.get().getBooks();
+		Optional<Reader> reader = readerService.findById(id);
+		if (reader.isPresent()) {
+			books = reader.get().getBooks();
 			return books;
-		}else			
-			return null; 
+		} else
+			return null;
 	}
-	
+
 	@PostMapping("/")
 	@ResponseStatus(HttpStatus.CREATED)
 	private Reader createReader(@RequestBody Reader reader) {
 		return readerService.createReader(reader);
 	}
-	
+
 	@PutMapping("/{id}")
 	private ResponseEntity<Reader> updateReader(@PathVariable long id, @RequestBody Reader reader) {
-        return readerService.findById(id)
-                .map(readerObj -> {
-                	readerObj.setId(id);
-                	readerObj.setAddress(reader.getAddress());
-                	readerObj.setBooks(reader.getBooks());
-                	readerObj.setEmail(reader.getEmail());
-                	readerObj.setPassword(reader.getPassword());
-                    return ResponseEntity.ok(readerService.updateReader(readerObj));
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-	
-    @DeleteMapping("/{id}")
-    private ResponseEntity<Reader> deleteReader(@PathVariable Long id){
-    	return readerService.findById(id)
-    				.map(reader -> {
-    					readerService.deleteReaderById(id);
-    					return ResponseEntity.ok(reader);
-    				})
-    				 .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-    
-    @PostMapping("/addBooksToReader/{userId}")
-    private ResponseEntity<Reader> addBooksToReader(@PathVariable long userId,@RequestBody Set<Book> books) {
-    	
-    		Optional<Reader> reader = readerService.findById(userId);
-    		if(reader.isPresent()) {
-    			final Reader readerWithBooks = reader.get();
-    			Set<Book> uniqueBooks= new HashSet<Book>();
-    			books.forEach(book->{
-    				System.out.println(readerWithBooks.findBooksInsidePresentsById(book));
-    				if(!readerWithBooks.findBooksInsidePresentsById(book))
-    					uniqueBooks.add(book);
-    			});
-    			uniqueBooks.forEach(book->{
-    				System.out.println(book.getTitle());
-    			});
-    			uniqueBooks.forEach(bookInside->{
-    				System.out.println(bookInside.getId());
-    				Optional<Book> book = bookService.findBookById(bookInside.getId());
-    				System.out.println("inside");
-    				if(book.isPresent()) {
-    					if(book.get().getQuantity()>0) {
-    						book.get().setQuantity(book.get().getQuantity()-1);
-    						bookService.updateBook(book.get());
-    						System.out.println(book.get().getQuantity());
-    		    			readerWithBooks.getBooks().add(book.get());
-    		    			readerService.updateReader(readerWithBooks);
-    					}	
-    					else {
-    						System.out.println("Not available");
-    					}
-    				}
-    			});
-    			return ResponseEntity.ok(readerWithBooks);
-    		}
-    		else 
-    			return ResponseEntity.notFound().build();
-    	
-    }
-    
-    @PostMapping("/deleteBooksFromReader/{userId}")
-    private ResponseEntity<Reader> deleteBooksFromReader(@PathVariable long userId,@RequestBody Book book){
-    		Optional<Reader> reader = readerService.findById(userId);
-    		if(reader.isPresent()) {
-    			final Reader readerWithBooks = reader.get();
-    			readerWithBooks.deleteBookFromReaderById(book.getId());
-				book.setQuantity(book.getQuantity()+1);
-				bookService.updateBook(book);
-//    			books.forEach(book->{
-//    				readerWithBooks.deleteBookFromReaderById(book.getId());
-//    				book.setQuantity(book.getQuantity()+1);
-//    				bookService.updateBook(book);
-//    			});
-    			readerService.updateReader(readerWithBooks);
-    			return ResponseEntity.ok(readerWithBooks);
-    		}
-    		else 
-    			return ResponseEntity.notFound().build();
-    	
-    }
-}
+		return readerService.findById(id).map(readerObj -> {
+			readerObj.setId(id);
+			readerObj.setAddress(reader.getAddress());
+			readerObj.setBooks(reader.getBooks());
+			readerObj.setEmail(reader.getEmail());
+			readerObj.setPassword(reader.getPassword());
+			return ResponseEntity.ok(readerService.updateReader(readerObj));
+		}).orElseGet(() -> ResponseEntity.notFound().build());
+	}
 
+	@DeleteMapping("/{id}")
+	private ResponseEntity<Reader> deleteReader(@PathVariable Long id) {
+		return readerService.findById(id).map(reader -> {
+			readerService.deleteReaderById(id);
+			return ResponseEntity.ok(reader);
+		}).orElseGet(() -> ResponseEntity.notFound().build());
+	}
+
+	@PostMapping("/addBooksToReader/{userId}")
+	private ResponseEntity<Reader> addBooksToReader(@PathVariable long userId, @RequestBody List<Book> books) {
+		Optional<Reader> reader = readerService.findById(userId);
+		if (reader.isPresent()) {
+			final Reader readerWithBooks = reader.get();
+			List<Book> forbiddenBooks = new ArrayList<Book>();
+			readerWithBooks.getBooks().forEach(readerBook -> {
+				books.forEach(orderBook -> {
+					if ((orderBook.getId() - readerBook.getId()) == 0)
+						forbiddenBooks.add(orderBook);
+				});
+			});
+			if (forbiddenBooks.size() > 0) {
+				String message = createMessage(forbiddenBooks);
+				message += ("Because you already read it's.");
+				throw new ForbiddenToOrder(message);
+			}
+			if (checkAvailability(books).size() > 0) {
+				String message = createMessage(books);
+				message += ("Because there are no available");
+				throw new BookNotAvailable(message);
+			}
+			
+			books.forEach(bookInside -> {
+				Optional<Book> book = bookService.findBookById(bookInside.getId());
+				if(book.isPresent()) {
+					book.get().setQuantity(book.get().getQuantity()-1);
+					bookService.updateBook(book.get());
+					readerWithBooks.getBooks().add(book.get());
+					readerService.updateReader(readerWithBooks);
+				}
+			});
+			
+
+//    			uniqueBooks.forEach(book->{
+//    				System.out.println(book.getTitle());
+//    			});
+//    			uniqueBooks.forEach(bookInside->{
+//    				System.out.println(bookInside.getId());
+//    				Optional<Book> book = bookService.findBookById(bookInside.getId());
+//    				System.out.println("inside");
+//    				if(book.isPresent()) {
+//    					if(book.get().getQuantity()>0) {
+//    						book.get().setQuantity(book.get().getQuantity()-1);
+//    						bookService.updateBook(book.get());
+//    						System.out.println(book.get().getQuantity());
+//    		    			readerWithBooks.getBooks().add(book.get());
+//    		    			readerService.updateReader(readerWithBooks);
+//    					}	
+//    					else {
+//    						System.out.println("Not available");
+//    					}
+//    				}
+//    			});
+			return ResponseEntity.ok(readerWithBooks);
+		} else
+			return ResponseEntity.notFound().build();
+
+	}
+
+	@PostMapping("/deleteBooksFromReader/{userId}")
+	private ResponseEntity<Reader> deleteBooksFromReader(@PathVariable long userId, @RequestBody Book book) {
+		Optional<Reader> reader = readerService.findById(userId);
+		if (reader.isPresent()) {
+			final Reader readerWithBooks = reader.get();
+			readerWithBooks.getBooks().removeIf(bookInside -> (bookInside.getId() - book.getId()) == 0);
+			book.setQuantity(book.getQuantity() + 1);
+			bookService.updateBook(book);
+			readerService.updateReader(readerWithBooks);
+			return ResponseEntity.ok(readerWithBooks);
+		} else
+			return ResponseEntity.notFound().build();
+
+	}
+
+	private String createMessage(List<Book> books) {
+		String newMessage;
+		if (books.size() == 1)
+			newMessage = "You can't order this book:\n";
+		else
+			newMessage = "You can't order these books:\n";
+		for (Book book : books) {
+			newMessage += book.getTitle();
+			newMessage += ("\n");
+		}
+		return newMessage;
+	}
+
+	private List<Book> checkAvailability(List<Book> books) {
+		List<Book> notAvailable = new ArrayList<Book>();
+		books.forEach(bookCheck -> {
+			if (bookCheck.getQuantity() <= 0) {
+				notAvailable.add(bookCheck);
+			}
+		});
+		return notAvailable;
+	}
+}
