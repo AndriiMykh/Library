@@ -1,0 +1,16 @@
+.myWrapper {
+  background: #ADFF2F;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+}
+.myParams{
+    background:LightCyan;
+    min-height: 6rem;
+}
+.myMB{
+    margin-bottom: 4rem;
+}

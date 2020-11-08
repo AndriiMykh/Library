@@ -24,6 +24,7 @@ import com.example.demo.entity.Book;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Reader;
 import com.example.demo.entity.Review;
+import com.example.demo.exception.DataNotFound;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.service.BookService;
 import com.example.demo.service.ReaderService;
@@ -62,12 +63,25 @@ public class BookController {
     public Set<Category> getAllCategories() {
         return bookService.getAllCategories();
     }
+    
     @GetMapping("/searchByKeyword/{keyword}")
     public List<Book> getByKeyword(@PathVariable String keyword) {
     	String capitalize = keyword.substring(0,1).toUpperCase()+keyword.substring(1,keyword.length()).toLowerCase();
         return bookService.findByTitle(capitalize);
     }
     
+    @GetMapping("/getReviews/{id}")
+    public List<Review> getAllReviews(@PathVariable Long id){
+    	List<Review> reviews;
+    	 Optional<Book> book=bookService.findBookById(id);
+    	if(book.isPresent()) {
+    		reviews=book.get().getReviews();
+    		return reviews;
+    	}
+    	else
+    		throw new DataNotFound("Book not found");
+    	
+    }
     
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
@@ -101,15 +115,17 @@ public class BookController {
     }
     
     @PostMapping("/addReviewToBook/{bookId}")
-    public ResponseEntity<Book> addReview(@PathVariable Long bookId,@RequestParam("email") String email,@RequestParam("review") String review){
-    	System.out.println(email);
+    public ResponseEntity<Book> addReview(@PathVariable Long bookId,@RequestParam("id") long id,@RequestParam("review") String review){
 		Optional<Book> book = bookService.findBookById(bookId);
-		Reader reader = readerService.findReaderByEmail(email);
-		if(book.isPresent()) {
-			Review newReview = new Review(review);
-			reader.addReview(newReview);
+		Optional<Reader> reader = readerService.findById(id);
+		System.out.println(review);
+		if(book.isPresent()&&reader.isPresent()) {
+			Review newReview = new Review();
+			newReview.setReview(review);
+			reader.get().addReview(newReview);
 			book.get().addReview(newReview);
 			bookService.updateBook(book.get());
+			System.out.println(ResponseEntity.ok(book.get().getReviews()));
 			return ResponseEntity.ok(book.get());
 		}else
 			return ResponseEntity.notFound().build();

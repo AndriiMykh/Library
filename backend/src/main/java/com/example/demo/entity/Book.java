@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -34,6 +35,7 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long Id;
 	private String title;
+	@Column(length=10000)
 	private String descr;
 	private int quantity;
 	@ManyToMany(fetch = FetchType.LAZY,

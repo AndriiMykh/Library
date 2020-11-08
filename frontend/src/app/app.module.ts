@@ -16,6 +16,8 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import {AuthGuard} from './common/auth-guard';
 import { ActualOrderComponent } from './components/actual-order/actual-order.component';
 import { MyBooksComponent } from './components/my-books/my-books.component';
+import { BookReviewComponent } from './components/book-review/book-review.component';
+import { CommonModule } from "@angular/common";
 
 const routes:Routes=[
 
@@ -27,10 +29,12 @@ const routes:Routes=[
   {path: 'categories/:category', component:WelcomeComponent,canActivate: [AuthGuard]},
   {path: 'searchByKeyword/:keyword', component:WelcomeComponent,canActivate: [AuthGuard]},
   {path: 'myBooks/:id', component:MyBooksComponent,canActivate: [AuthGuard]},
+  {path: 'bookReviews/:id', component:BookReviewComponent,canActivate: [AuthGuard]},
 
 ];
 @NgModule({
   declarations: [
+    BookReviewComponent,
     AppComponent,
     RegisterFormComponent,
     FooterComponent,
@@ -38,17 +42,17 @@ const routes:Routes=[
     LoginComponent,
     WelcomeComponent,
     ActualOrderComponent,
-    MyBooksComponent
+    MyBooksComponent,
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot(routes),
     AppRoutingModule,
     FontAwesomeModule,
-    FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [ReaderService],
   bootstrap: [AppComponent]

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReaderService } from 'src/app/service/reader.service';
 import { Book } from 'src/app/common/book';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-books',
@@ -9,7 +10,7 @@ import { Book } from 'src/app/common/book';
 })
 export class MyBooksComponent implements OnInit {
 
-  constructor(private readerService:ReaderService) { }
+  constructor(private readerService:ReaderService, private router: Router) { }
   books:Book[]=[]
   ngOnInit(): void {
     this.getBooks()
@@ -30,6 +31,10 @@ export class MyBooksComponent implements OnInit {
         console.log("Error happened")
       }
     )
+  }
+
+  leaveReview(id:number){
+    this.router.navigate(['/bookReviews', id])
   }
 
 }

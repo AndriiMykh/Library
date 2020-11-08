@@ -15,8 +15,14 @@
 .card{
     width: 18rem;
     height: 25rem;
+
+
 }
 
 .myHeight{
     height: 13rem;
+}
+.card-body{
+    overflow: hidden; /* make sure it hides the content that overflows */
+    text-overflow: ellipsis; /* give the beautiful '...' effect */
 }

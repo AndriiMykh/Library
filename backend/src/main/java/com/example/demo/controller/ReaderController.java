@@ -120,7 +120,6 @@ public class ReaderController {
 				message += ("Because there are no available");
 				throw new BookNotAvailable(message);
 			}
-			
 			books.forEach(bookInside -> {
 				Optional<Book> book = bookService.findBookById(bookInside.getId());
 				if(book.isPresent()) {
@@ -130,28 +129,6 @@ public class ReaderController {
 					readerService.updateReader(readerWithBooks);
 				}
 			});
-			
-
-//    			uniqueBooks.forEach(book->{
-//    				System.out.println(book.getTitle());
-//    			});
-//    			uniqueBooks.forEach(bookInside->{
-//    				System.out.println(bookInside.getId());
-//    				Optional<Book> book = bookService.findBookById(bookInside.getId());
-//    				System.out.println("inside");
-//    				if(book.isPresent()) {
-//    					if(book.get().getQuantity()>0) {
-//    						book.get().setQuantity(book.get().getQuantity()-1);
-//    						bookService.updateBook(book.get());
-//    						System.out.println(book.get().getQuantity());
-//    		    			readerWithBooks.getBooks().add(book.get());
-//    		    			readerService.updateReader(readerWithBooks);
-//    					}	
-//    					else {
-//    						System.out.println("Not available");
-//    					}
-//    				}
-//    			});
 			return ResponseEntity.ok(readerWithBooks);
 		} else
 			return ResponseEntity.notFound().build();

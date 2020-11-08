@@ -1,0 +1,16 @@
+<div class="myWrapper">
+    <h2></h2>
+    <div class="container mt-5">
+        <div *ngFor="let review of reviews" class="container-fluid myParams p-2 mt-2 " >
+            {{review.review}}
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+            </div>
+            <textarea type="text" class="form-control" placeholder="Leave your review"
+                [(ngModel)]="textOfReview"></textarea>
+            <span class="input-group-addon btn btn-primary" (click)="LeaveAReview()">Send</span>
+        </div>
+    </div>
+<div class="myMB"></div>
+</div>
