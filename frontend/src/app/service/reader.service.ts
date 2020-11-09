@@ -43,6 +43,10 @@ export class ReaderService {
     this.LoggedIn.next(false);
   }  
 
+  public get loggedInAdmin(): boolean {  
+    return (sessionStorage.getItem('authenticatedUser') === '9999');
+  } 
+
   public get loggedIn(): boolean {  
     return (sessionStorage.getItem('authenticatedUser') !== null);  
   }  

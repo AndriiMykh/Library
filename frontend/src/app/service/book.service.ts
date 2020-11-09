@@ -42,4 +42,10 @@ export class BookService {
     return this.http.post(this.baseURL+`/addReviewToBook/${bookId}`,params)
   }
 
+  updateBook(book:Book){
+    return this.http.put(this.baseURL+`${book.id}`,book)
+  }
+
+
+
 }

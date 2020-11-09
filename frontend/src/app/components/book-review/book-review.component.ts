@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BookService } from 'src/app/service/book.service';
 import { Review } from 'src/app/common/review';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-book-review',
@@ -39,4 +40,8 @@ export class BookReviewComponent  {
       }
     )
   }
+
+
+
+
 }

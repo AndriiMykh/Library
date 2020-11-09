@@ -4,17 +4,22 @@
         <div class="card-body text-center">
             <h5 class="card-title">{{book.title}}</h5>
             <p class="card-text myHeight">{{book.descr}}</p>
-
         </div>
         <ul class="list-group list-group-flush text-center">
-            <li class="list-group-item">Available:{{book.quantity}}</li>
+            
+            <li class="list-group-item">Available:<span *ngIf="adminButtons" class="minus text-dark ml-2 mr-2" (click)="decreaseQuantityBook(book)">-</span>{{book.quantity}}<span *ngIf="adminButtons" class="plus text-dark ml-2" (click)="increaseQuantityBook(book)">+</span></li>
+            
         </ul>
         <div class="card-body text-center">
             <button class="btn btn btn-info" (click)="orderTheBook(book)">Order it</button>
         </div>
+        <div class="d-flex flex-column justify-content-center" *ngIf="adminButtons">
+            <button class="btn btn-secondary d-block " (click)="showReviews(book)">Check reviews</button>
+        </div>
     </div>
 
 </div>
+
 <div class="mb-5"></div>
 </div>
 

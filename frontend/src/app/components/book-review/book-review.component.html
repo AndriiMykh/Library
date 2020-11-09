@@ -2,7 +2,11 @@
     <h2></h2>
     <div class="container mt-5">
         <div *ngFor="let review of reviews" class="container-fluid myParams p-2 mt-2 " >
-            {{review.review}}
+            <div class="d-flex justify-content-between">
+             <h5>{{review.reader.email}}</h5>
+            </div>
+            <p>{{review.review}}</p>
+            
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">

@@ -18,6 +18,7 @@ import { ActualOrderComponent } from './components/actual-order/actual-order.com
 import { MyBooksComponent } from './components/my-books/my-books.component';
 import { BookReviewComponent } from './components/book-review/book-review.component';
 import { CommonModule } from "@angular/common";
+import {AdminGuard} from './common/admin-guard';
 
 const routes:Routes=[
 
@@ -30,7 +31,6 @@ const routes:Routes=[
   {path: 'searchByKeyword/:keyword', component:WelcomeComponent,canActivate: [AuthGuard]},
   {path: 'myBooks/:id', component:MyBooksComponent,canActivate: [AuthGuard]},
   {path: 'bookReviews/:id', component:BookReviewComponent,canActivate: [AuthGuard]},
-
 ];
 @NgModule({
   declarations: [

@@ -28,6 +28,7 @@ import com.example.demo.exception.DataNotFound;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.service.BookService;
 import com.example.demo.service.ReaderService;
+import com.example.demo.service.ReviewService;
 
 @RestController
 @RequestMapping("/api/books")
@@ -36,10 +37,12 @@ public class BookController {
 	
 	private final BookService bookService;
 	private final ReaderService readerService;
+	private final ReviewService reviewService;
 	
-	public BookController(BookService bookService,ReaderService readerService) {
+	public BookController(BookService bookService,ReaderService readerService,ReviewService reviewService) {
 		this.readerService = readerService;
 		this.bookService=bookService;
+		this.reviewService=reviewService;
 	}
 	
 	@GetMapping("/")
@@ -72,15 +75,9 @@ public class BookController {
     
     @GetMapping("/getReviews/{id}")
     public List<Review> getAllReviews(@PathVariable Long id){
-    	List<Review> reviews;
-    	 Optional<Book> book=bookService.findBookById(id);
-    	if(book.isPresent()) {
-    		reviews=book.get().getReviews();
-    		return reviews;
-    	}
-    	else
-    		throw new DataNotFound("Book not found");
-    	
+    	List<Review> reviews=reviewService.findAllReviewsToBook(id);
+    	return reviews;
+	
     }
     
     @PostMapping("/")
@@ -125,7 +122,6 @@ public class BookController {
 			reader.get().addReview(newReview);
 			book.get().addReview(newReview);
 			bookService.updateBook(book.get());
-			System.out.println(ResponseEntity.ok(book.get().getReviews()));
 			return ResponseEntity.ok(book.get());
 		}else
 			return ResponseEntity.notFound().build();
